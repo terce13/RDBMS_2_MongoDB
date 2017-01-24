@@ -1,6 +1,5 @@
 package com.mongodb.rterceno;
 
-import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
@@ -15,6 +14,7 @@ import static com.mongodb.client.model.Aggregates.addFields;
 import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Aggregates.group;
+import static com.mongodb.client.model.Aggregates.unwind;
 import static com.mongodb.client.model.Aggregates.out;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.rterceno.RDBMS_2_MongoDB.mongoClient;
@@ -29,15 +29,65 @@ public class Transformation {
         db = mongoClient.getDatabase(databaseName);
         createTrack();//Collection
         createPlaylist();//Collection
-        //createInvoces();//Collection
-        //createCustomer();//View
+        createInvoices();//Collection
+        createCustomer();//View
     }
 
     private static void createCustomer() {
+        Bson InvoicesLookup = lookup("invoices", "InvoiceId", "InvoiceId", "InvoiceLines");
 
     }
 
-    private static void createInvoces() {
+    private static void createInvoices() {
+        MongoCollection<Document> coll = db.getCollection("Invoice");
+
+        Bson InvoiceLineLookup = lookup("InvoiceLine", "InvoiceId", "InvoiceId", "InvoiceLines");
+        Bson unwind = unwind("$InvoiceLines");
+        Bson tracksLookup = lookup("tracks", "InvoiceLines.TrackId", "TrackId", "InvoiceLines.Tracks");
+        Bson project1 = project(fields(
+                computed("_id", new Document()
+                        .append("InvoiceId", "$InvoiceId")
+                        .append("CustomerId", "$CustomerId")
+                        .append("InvoiceDate", "$InvoiceDate")
+                        .append("BillingAddress", "$BillingAddress")
+                        .append("BillingCity", "$BillingCity")
+                        .append("BillingState", "$BillingState")
+                        .append("BillingCountry", "$BillingCountry")
+                        .append("BillingPostalCode", "$BillingPostalCode")
+                        .append("Total", "$Total")),
+                computed("InvoiceLines.Track.Name", new Document ("$arrayElemAt", Arrays.asList("$InvoiceLines.Tracks.Name" , 0))),
+                computed("InvoiceLines.Track.Id", new Document ("$arrayElemAt", Arrays.asList("$InvoiceLines.Tracks.TrackId" , 0))),
+                computed("InvoiceLines.Track.UnitPrice", new Document ("$arrayElemAt", Arrays.asList("$InvoiceLines.Tracks.UnitPrice" , 0))),
+                //computed("InvoiceLines.Price", new Document("$multiply", Arrays.asList("$InvoiceLines.Track.UnitPrice", "$InvoiceLines.Quantity"))),
+                include("InvoiceLines.Quantity", "InvoiceLines.InvoiceLineId")
+        ));
+        Bson group = group("$_id", Accumulators.push("InvoiceLines", "$InvoiceLines"));
+        Bson CustomerLookup = lookup("Customer", "_id.CustomerId", "CustomerId", "Customers");
+        Bson project2 = project(fields(
+                exclude("_id"),
+                include("InvoiceLines"),
+                computed("InvoiceId", "$_id.InvoiceId"),
+                computed("InvoiceDate", "$_id.InvoiceDate"),
+                computed("BillingAddress", "$_id.IBillingAddress"),
+                computed("BillingCity", "$_id.BillingCity"),
+                computed("BillingState", "$_id.BillingState"),
+                computed("BillingCountry", "$_id.BillingCountry"),
+                computed("BillingPostalCode", "$_id.BillingPostalCode"),
+                computed("Total", "$_id.Total"),
+                computed("Customer.FullName", new Document ("$concat", Arrays.asList(
+                        new Document ("$arrayElemAt", Arrays.asList("$Customers.FirstName" , 0)),
+                        " ",
+                        new Document ("$arrayElemAt", Arrays.asList("$Customers.LastName" , 0))
+                ))),
+                computed("Customer.Phone", new Document ("$arrayElemAt", Arrays.asList("$Customers.Phone" , 0))),
+                computed("Customer.Email", new Document ("$arrayElemAt", Arrays.asList("$Customers.Email" , 0))),
+                computed("Customer.Id", "$_id.CustomerId")
+        ));
+        Bson out = out("invoices");
+
+        coll.aggregate(Arrays.asList(InvoiceLineLookup, unwind, tracksLookup, project1, group, CustomerLookup, project2, out)).toCollection();
+        coll = db.getCollection("invoices");
+        coll.createIndex(new Document("InvoiceId", 1), new IndexOptions().unique(true));
 
     }
 
@@ -64,6 +114,9 @@ public class Transformation {
         Bson out = out("playlists");
 
         coll.aggregate(Arrays.asList(tracksLookup, project1, group, PlaylistLookup, project2, out)).toCollection();
+        coll = db.getCollection("playlists");
+        coll.createIndex(new Document("PlaylistId", 1), new IndexOptions().unique(true));
+
 
     }
 
@@ -93,7 +146,7 @@ public class Transformation {
                 "Bytes",
                 "UnitPrice"
             )));
-        
+
 
         Bson out = out("tracks");
 

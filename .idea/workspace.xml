@@ -7,12 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39595070-a27f-495b-9874-6dea52a2852f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/RDBMS_2_MongoDB_jar/RDBMS_2_MongoDB.jar" afterPath="$PROJECT_DIR$/out/artifacts/RDBMS_2_MongoDB_jar/RDBMS_2_MongoDB.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mongodb/rterceno/RDBMS_2_MongoDB.class" afterPath="$PROJECT_DIR$/target/classes/com/mongodb/rterceno/RDBMS_2_MongoDB.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/mongodb/rterceno/Transformation.class" afterPath="$PROJECT_DIR$/target/classes/com/mongodb/rterceno/Transformation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/RDBMS_2_MongoDB.java" afterPath="$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/RDBMS_2_MongoDB.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/Transformation.java" afterPath="$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/Transformation.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -35,7 +29,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="422">
               <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-              <folding />
+              <folding>
+                <marker date="1485278910000" expanded="true" signature="89:1206" ph="..." />
+                <marker date="1485278910000" expanded="true" signature="1017:1174" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -56,8 +53,8 @@
       <file leaf-file-name="Transformation.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/Transformation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="758">
-              <caret line="95" column="8" lean-forward="true" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+            <state relative-caret-position="1043">
+              <caret line="89" column="46" lean-forward="false" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -586,14 +583,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-          <folding />
+          <folding>
+            <marker date="1485278910000" expanded="true" signature="89:1206" ph="..." />
+            <marker date="1485278910000" expanded="true" signature="1017:1174" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mongodb/rterceno/Transformation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="758">
-          <caret line="95" column="8" lean-forward="true" selection-start-line="95" selection-start-column="8" selection-end-line="95" selection-end-column="8" />
+        <state relative-caret-position="1043">
+          <caret line="89" column="46" lean-forward="false" selection-start-line="89" selection-start-column="46" selection-end-line="89" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
