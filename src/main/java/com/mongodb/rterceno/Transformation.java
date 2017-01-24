@@ -34,7 +34,16 @@ public class Transformation {
     }
 
     private static void createCustomer() {
-        Bson InvoicesLookup = lookup("invoices", "InvoiceId", "InvoiceId", "InvoiceLines");
+        Bson InvoicesLookup = lookup("invoices", "CustomerId", "Customer.Id", "Invoices");
+        Bson project1 = project(exclude("Invoices._id", "Invoices.Customer"));
+        Bson addFields = addFields(
+                new Field("BillingInfo.#Orders", new Document("$size", "$Invoices")),
+                new Field("BillingInfo.LastOrderDate", new Document("$max", "$Invoices.InvoiceDate")),
+                new Field("BillingInfo.TotalSpending", new Document("$sum", "$Invoices.Total")),
+                new Field("BillingInfo.AvgOrderValue", new Document("$avg", "$Invoices.Total"))
+        );
+
+        db.createView("customers", "Customer", Arrays.asList(InvoicesLookup, project1, addFields));
 
     }
 
