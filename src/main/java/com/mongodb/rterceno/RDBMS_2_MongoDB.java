@@ -86,6 +86,7 @@ public class RDBMS_2_MongoDB {
             conn.close();
 
             //Creating collections in MongoDB
+            Transformation.transformData(args[0]);
 
 
         } catch (SQLException ex) {
