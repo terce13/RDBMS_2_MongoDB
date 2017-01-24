@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RDBMS_2_MongoDB:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RDBMS_2_MongoDB_jar</output-path>
+    <root id="archive" name="RDBMS_2_MongoDB.jar">
+      <element id="module-output" name="RDBMS_2_MongoDB" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/mongodb/mongo-java-driver/3.4.1/mongo-java-driver-3.4.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
