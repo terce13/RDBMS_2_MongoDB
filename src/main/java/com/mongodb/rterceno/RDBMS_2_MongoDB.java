@@ -20,14 +20,14 @@ public class RDBMS_2_MongoDB {
 
     private static void showUsage(){
         System.out.println("Incorrect number of parameters. Use: ");
-        System.out.println("java -jar RDBMS_2_MongoDB.jar <database name> <RDBMS url> [<mongodb URI>]");
-        System.out.println("Example: java -jar RDBMS_2_MongoDB.jar Chinook \"mysql://localhost:3306?user=myUser&password=myPassword\" mongodb://myUser:myPassword@localhost:27017");
+        System.out.println("java -jar RDBMS_2_MongoDB.jar <database name> <RDBMS url> [<mongodb URI>] [<Transform (true/false)>]");
+        System.out.println("Example: java -jar RDBMS_2_MongoDB.jar Chinook \"mysql://localhost:3306?user=myUser&password=myPassword\" mongodb://myUser:myPassword@localhost:27017 true");
 
     }
 
     public static void main(String[] args) {
 
-        if (args.length < 2 || args.length > 3){
+        if (args.length < 2 || args.length > 4 || args[0].equals("help")){
             showUsage();
             System.exit(0);
         }
@@ -86,7 +86,9 @@ public class RDBMS_2_MongoDB {
             conn.close();
 
             //Creating collections in MongoDB
-            Transformation.transformData(args[0]);
+            if (args[3].equals("true")){
+                Transformation.transformData(args[0]);
+            }
 
 
         } catch (SQLException ex) {
